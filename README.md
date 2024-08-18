@@ -34,70 +34,71 @@ Before you begin, make sure you have the following installed:
 
 ### Steps
 
-1. *Clone the Repository*:
+1. *Start Minikube*:
 
     bash
-    git clone https://github.com/prem4eru/TravelMemory_MERN_K8S.git
-    cd TravelMemory_MERN_K8S
+    minikube start
     
 
-2. *Build Docker Images*:
-
-    Navigate to each microservice directory and build Docker images.
+2. *Switch Context to Minikube*:
 
     bash
-    cd frontend
-    docker build -t <your-dockerhub-username>/travelmemory-frontend .
-    docker push <your-dockerhub-username>/travelmemory-frontend
+    kubectl config use-context minikube
     
 
-    Repeat for the backend and other services.
+3. *Apply Namespace Configuration*:
 
-3. *Set Up Kubernetes Cluster*:
-
-    - *Minikube*: Start a local cluster with minikube start.
-    - *Cloud Provider*: Set up a Kubernetes cluster using a cloud provider.
-
-4. *Deploy MongoDB*:
-
-    Create a Kubernetes secret for MongoDB credentials and deploy MongoDB using Helm.
+    Create a separate namespace for the database:
 
     bash
-    kubectl create secret generic mongodb-secret --from-literal=mongo-root-username=<username> --from-literal=mongo-root-password=<password>
-    helm install mongodb bitnami/mongodb --set auth.rootPassword=<password>,auth.username=<username>,auth.password=<password>,auth.database=travelmemory
+    kubectl apply -f db-namespace.yml
     
 
-5. *Deploy the Application*:
+4. *Set Up Persistent Volumes*:
 
-    Apply the Kubernetes YAML files located in the k8s directory.
+    Apply persistent volume (PV) and persistent volume claim (PVC) configurations:
 
     bash
-    kubectl apply -f k8s/mongodb-deployment.yaml
-    kubectl apply -f k8s/backend-deployment.yaml
-    kubectl apply -f k8s/frontend-deployment.yaml
+    kubectl apply -f pv.yml
+    kubectl apply -f pvc.yml
     
 
-6. *Access the Application*:
+5. *Deploy MongoDB*:
 
-    - *Minikube*: Use minikube service travelmemory-frontend-service.
-    - *Cloud Provider*: Get the external IP using kubectl get svc travelmemory-frontend-service.
-
-7. *Monitoring and Logging*:
-
-    Use kubectl logs <pod-name> to check logs and minikube dashboard for the Kubernetes Dashboard.
-
-8. *Cleanup*:
-
-    Remove Kubernetes resources with:
+    Create the MongoDB deployment and service:
 
     bash
-    kubectl delete -f k8s/
+    kubectl apply -f db-deployment.yml
+    kubectl apply -f db-service.yml
     
 
-    Stop Minikube:
+6. *Verify the Setup*:
+
+    Check that the pods are running correctly:
 
     bash
-    minikube stop
+    kubectl get pods -n database
+    
+
+    Check the services:
+
+    bash
+    kubectl get svc -n database
+    
+
+7. *Test DNS Resolution*:
+
+    Run a temporary BusyBox pod to verify DNS resolution:
+
+    bash
+    kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
+    nslookup mongodb-service.database.svc.cluster.local
+    
+
+    Exit the BusyBox pod:
+
+    bash
+    exit
     
 
 ## Reference
