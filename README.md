@@ -59,6 +59,8 @@ Before you begin, make sure you have the following installed:
 
     ```bash
     kubectl apply -f pv.yml
+    ```
+    ```bash
     kubectl apply -f pvc.yml
     ```
     
@@ -67,6 +69,8 @@ Before you begin, make sure you have the following installed:
 
     ```bash
     kubectl apply -f db-deployment.yml
+    ```
+    ```bash
     kubectl apply -f db-service.yml
     ```
     
@@ -90,8 +94,12 @@ Before you begin, make sure you have the following installed:
 
     ```bash
     kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
+    ```
+    ```bash
     nslookup mongodb-service.database.svc.cluster.local
-    exit
+    ```
+  ```bash
+   exit
     ```
     
 
