@@ -110,3 +110,18 @@ For major changes, please open an issue first to discuss what you would like to 
 ---
 
 This README provides all necessary information for deploying and contributing to the TravelMemory MERN Kubernetes project. Happy coding!
+
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-loadbalancer-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+```
