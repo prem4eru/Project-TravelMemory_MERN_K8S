@@ -36,37 +36,38 @@ Before you begin, make sure you have the following installed:
 
 1. *Start Minikube*:
 
-    bash
+   '''bash
     minikube start
+   '''
     
 
-2. *Switch Context to Minikube*:
+3. *Switch Context to Minikube*:
 
     bash
     kubectl config use-context minikube
     
 
-3. *Apply Namespace Configuration*:
+4. *Apply Namespace Configuration*:
 
     bash
     kubectl apply -f db-namespace.yml
     
 
-4. *Set Up Persistent Volumes*:
+5. *Set Up Persistent Volumes*:
 
     bash
     kubectl apply -f pv.yml
     kubectl apply -f pvc.yml
     
 
-5. *Deploy MongoDB*:
+6. *Deploy MongoDB*:
 
     bash
     kubectl apply -f db-deployment.yml
     kubectl apply -f db-service.yml
     
 
-6. *Verify the Setup*:
+7. *Verify the Setup*:
 
     Check that the pods are running correctly:
 
@@ -80,7 +81,7 @@ Before you begin, make sure you have the following installed:
     kubectl get svc -n database
     
 
-7. *Test DNS Resolution*:
+8. *Test DNS Resolution*:
 
     bash
     kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
