@@ -48,15 +48,11 @@ Before you begin, make sure you have the following installed:
 
 3. *Apply Namespace Configuration*:
 
-    Create a separate namespace for the database:
-
     bash
     kubectl apply -f db-namespace.yml
     
 
 4. *Set Up Persistent Volumes*:
-
-    Apply persistent volume (PV) and persistent volume claim (PVC) configurations:
 
     bash
     kubectl apply -f pv.yml
@@ -64,8 +60,6 @@ Before you begin, make sure you have the following installed:
     
 
 5. *Deploy MongoDB*:
-
-    Create the MongoDB deployment and service:
 
     bash
     kubectl apply -f db-deployment.yml
@@ -88,16 +82,9 @@ Before you begin, make sure you have the following installed:
 
 7. *Test DNS Resolution*:
 
-    Run a temporary BusyBox pod to verify DNS resolution:
-
     bash
     kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
     nslookup mongodb-service.database.svc.cluster.local
-    
-
-    Exit the BusyBox pod:
-
-    bash
     exit
     
 
