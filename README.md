@@ -98,9 +98,9 @@ Before you begin, make sure you have the following installed:
     ```bash
     nslookup mongodb-service.database.svc.cluster.local
     ```
-  ```bash
+   ```bash
    exit
-    ```
+   ```
     
 
 ## Reference
