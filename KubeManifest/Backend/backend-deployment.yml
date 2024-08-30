@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-secret
+  namespace: database
+type: Opaque
+data:
+  mongo-uri: bW9uZ29kYjovL21vbmdvZGItc2VydmljZS5kYXRhYmFzZS5zdmMuY2x1c3Rlci5sb2NhbDoyNzAxNy90cmF2ZWwtbWVtb3J5
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: database
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: prem4eru/travelmemory:backend
+        env: 
+        - name: PORT 
+          value: "3001"
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: mongo-uri
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3001
+
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-secret
+  namespace: database
+type: Opaque
+data:
+  mongo-uri: bW9uZ29kYjovL21vbmdvZGItc2VydmljZS5kYXRhYmFzZS5zdmMuY2x1c3Rlci5sb2NhbDoyNzAxNy90cmF2ZWwtbWVtb3J5
+
+
+  

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: travelmemoryfrontend
+  namespace: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: TravelMemory-frontend
+  template:
+    metadata:
+      labels:
+        app: TravelMemory-frontend
+    spec:
+      containers:
+      - name: travelmemoryfrontend
+        image: prashantdey/travelmemory:fe
+        env:
+        - name: REACT_APP_BACKEND_URL
+          valueFrom: 
+            configMapKeyRef:
+              name: travelmemoryfrontend-config
+              key: REACT_APP_BACKEND_URL
+        ports:
+        - containerPort: 3000

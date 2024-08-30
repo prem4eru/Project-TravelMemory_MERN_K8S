@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: travelmemoryfrontend-config
+  namespace: frontend
+data:
+  REACT_APP_BACKEND_URL: "http://localhost:3001"
